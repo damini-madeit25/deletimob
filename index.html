@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Triumphant Grace</title>
+  <link rel="icon" href="lanterns.jpg" type="image/x-icon">
+  <style>
+    /* Base Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f6f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Header & Navigation */
+    header {
+      background-color: white;
+      color: black;
+      padding: 20px 0;
+      text-align: center;
+      border-bottom: 4px solid #ff4500;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      background-color: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    nav ul li a {
+      display: block;
+      padding: 15px 20px;
+      color: #222;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #ff4500;
+      color: #fff;
+    }
+
+    /* Main Layout Container */
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 30px;
+    }
+
+    /* Featured Article Section */
+    .featured-section {
+      grid-column: 1 / -1;
+      background-color: #1a1a1a;
+      color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+    }
+
+    .featured-image {
+      background-color: #333;
+      height: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #fff;
+      background-image: url('lanterns.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .featured-content {
+      padding: 25px;
+    }
+
+    .featured-content .meta {
+      color: #ff4500;
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .featured-content h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    /* Main Content Feed */
+    .main-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .article-card {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      display: flex;
+      transition: transform 0.2s;
+    }
+
+    .article-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .article-thumb {
+      width: 200px;
+      height: 150px;
+      background: #ddd;
+      overflow: hidden;
+    }
+
+    .article-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .article-details {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .article-details .meta {
+      font-size: 0.85rem;
+      color: #777;
+      margin-bottom: 5px;
+    }
+
+    .article-details h3 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      color: #111;
+    }
+
+    .article-details h3:hover {
+      color: #ff4500;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .widget {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .widget h4 {
+      border-bottom: 2px solid #ff4500;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+    }
+
+    .widget ul {
+      list-style: none;
+      color: blue;
+    }
+
+    .widget ul li {
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 0.95rem;
+    }
+
+    .widget ul li:last-child {
+      border-bottom: none;
+    }
+
+    .widget ul li a:hover {
+      color: #ff4500;
+    }
+
+    /* eBook Store */
+    .store-section {
+      grid-column: 1 / -1;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    .store-section.active {
+      display: block;
+    }
+
+    .store-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .store-header h2 {
+      font-size: 1.6rem;
+      color: #111;
+    }
+
+    .store-header p {
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    .store-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+    }
+
+    .ebook-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ebook-cover {
+      height: 260px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1a1a1a, #ff4500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 2rem;
+    }
+
+    .ebook-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ebook-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .ebook-body h3 {
+      font-size: 1.1rem;
+      color: #111;
+      margin-bottom: 6px;
+    }
+
+    .ebook-body p.desc {
+      font-size: 0.88rem;
+      color: #666;
+      margin-bottom: 14px;
+      flex-grow: 1;
+    }
+
+    .ebook-price {
+      font-weight: 700;
+      color: #ff4500;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+
+    .buy-btn {
+      background-color: #ff4500;
+      color: #fff;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background-color 0.2s;
+      width: 100%;
+    }
+
+    .buy-btn:hover {
+      background-color: #d93c00;
+    }
+
+    .buy-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .secure-note {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: #2a8a4a;
+      margin-top: 10px;
+    }
+
+    .download-link {
+      display: none;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1a7a3c;
+    }
+
+    .download-link a {
+      text-decoration: underline;
+    }
+
+    .store-footnote {
+      font-size: 0.78rem;
+      color: #999;
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    /* Book Modal */
+    .book-modal {
+      display: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .book-modal-content {
+      background: #fff;
+      width: 90%;
+      max-width: 450px;
+      padding: 30px;
+      border-radius: 10px;
+      position: relative;
+      animation: popup .3s ease;
+    }
+
+    .close-modal {
+      position: absolute;
+      right: 18px;
+      top: 12px;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .book-features {
+      margin: 20px 0;
+      padding-left: 18px;
+      line-height: 1.9;
+    }
+
+    @keyframes popup {
+      from {
+        transform: scale(.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Footer */
+    footer {
+      background-color: #111;
+      color: #aaa;
+      padding: 40px 20px;
+      margin-top: 50px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    footer .footer-links {
+      margin-bottom: 20px;
+    }
+
+    footer .footer-links a {
+      margin: 0 10px;
+    }
+
+    footer .footer-links a:hover {
+      color: #fff;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      .article-card {
+        flex-direction: column;
+      }
+      .article-thumb {
+        width: 100%;
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+<body id="top">
+
+  <header>
+    <h1><a href="https://deletimoblog.wordpress.com/" target="_blank" rel="noopener noreferrer">Triumphant Grace</a></h1>
+    <p>Holding forth the Word of Life!</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#" id="homeLink">Home</a></li>
+      <li><a href="#" class="store-trigger">eBooks Store</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+
+    <section class="store-section" id="store">
+      <div class="store-header">
+        <h2>eBooks Store</h2>
+        <p>Instant PDF downloads &middot; Paid securely via Paystack</p>
+      </div>
+
+      <div class="store-grid" id="ebook-grid">
+        <!-- Ebook cards are rendered by JavaScript from the EBOOKS array below -->
+      </div>
+
+      <p class="store-footnote">
+        Payments are processed by Paystack. Triumphant Grace never sees or stores your card details.
+      </p>
+    </section>
+
+    <section class="featured-section">
+      <div class="featured-image"></div>
+      <div class="featured-content">
+        <div class="meta">Featured Review • May 29, 2026</div>
+        <h2><a href="https://deletimoblog.wordpress.com/2026/05/29/the-urgency-of-kindness-understanding-the-mandate-of-immediate-generosity/">The Urgency Of Kindness: Understanding The Mandate Of Immediate Generosity</a></h2>
+        <p>The current financial crisis and a rising culture of entitlement are eroding our shared responsibility to look out for one another...</p>
+      </div>
+    </section>
+
+    <main class="main-feed">
+      <article class="article-card">
+        <div class="article-thumb">
+          <img src="four.png" alt="Description of article">
+        </div>
+        <div class="article-details">
+          <div class="meta">Article • Posted on February 28, 2025</div>
+          <h3><a href="https://deletimoblog.wordpress.com/2025/02/28/why-sit-we-here-until-we-die-move-in-the-direction-of-your-prayer/">Why sit we here until we die? Move in the direction of your prayer</a></h3>
+          <p>And there were four leprous men at the entering in of the gate: and they said one to another, Why sit we here until we die?</p>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <div class="article-thumb">
+          <img src="shore.jpg" alt="Description of article">
+        </div>
+        <div class="article-details">
+          <div class="meta">Article • January 27, 2025</div>
+          <h3><a href="https://deletimoblog.wordpress.com/2025/01/27/they-called-them-christians/">They Called Them Christians</a></h3>
+          <p>And the disciples were first called Christians in Antioch..</p>
+        </div>
+      </article>
+      <!--three new-->
+      <article class="article-card">
+        <div class="article-thumb">
+          <img src="shore.jpg" alt="Description of article">
+        </div>
+        <div class="article-details">
+          <div class="meta">Article • January 27, 2025</div>
+          <h3><a href="https://deletimoblog.wordpress.com/2025/01/27/they-called-them-christians/">They Called Them Christians</a></h3>
+          <p>And the disciples were first called Christians in Antioch..</p>
+        </div>
+      </article>
+      <article class="article-card">
+        <div class="article-thumb">
+          <img src="shore.jpg" alt="Description of article">
+        </div>
+        <div class="article-details">
+          <div class="meta">Article • January 27, 2025</div>
+          <h3><a href="https://deletimoblog.wordpress.com/2025/01/27/they-called-them-christians/">They Called Them Christians</a></h3>
+          <p>And the disciples were first called Christians in Antioch..</p>
+        </div>
+      </article>
+      <article class="article-card">
+        <div class="article-thumb">
+          <img src="shore.jpg" alt="Description of article">
+        </div>
+        <div class="article-details">
+          <div class="meta">Article • January 27, 2025</div>
+          <h3><a href="https://deletimoblog.wordpress.com/2025/01/27/they-called-them-christians/">They Called Them Christians</a></h3>
+          <p>And the disciples were first called Christians in Antioch..</p>
+        </div>
+      </article>
+
+      <article class="article-card">
+        <div class="article-thumb">
+          <img src="last.jpg" alt="Description of article">
+        </div>
+        <div class="article-details">
+          <div class="meta">Article • January 24, 2024</div>
+          <h3><a href="https://deletimoblog.wordpress.com/2024/01/24/the-word-of-god-prevailed-2/">The Word of God Prevailed 2</a></h3>
+          <p>How did the word of God prevail?</p>
+        </div>
+      </article>
+    </main>
+
+    <aside class="sidebar">
+      <div class="widget">
+        <h4>Trending Content</h4>
+        <ul>
+          <li><a href="https://deletimoblog.wordpress.com/2021/12/27/there-is-no-confusion/">There is no Confusion</a></li>
+          <li><a href="https://deletimoblog.wordpress.com/2022/09/26/the-word-of-god-prevailed/">The Word of God Prevailed</a></li>
+          <li><a href="https://deletimoblog.wordpress.com/2022/04/15/my-thoughts-on-marriage/">My Thoughts on Marriage</a></li>
+          <li><a href="https://deletimoblog.wordpress.com/2021/12/30/take-responsibility/">Take Responsibility!</a></li>
+        </ul>
+      </div>
+
+      <div class="widget" id="about">
+        <h4>About Triumphant Grace</h4>
+        <p>When you look at everything happening around the world today, it can feel tempting to conclude that life has no meaning. Violence, injustice, 
+          and every vice imaginable seem to be on the rise, and it can leave the heart heavy with doubt.
+          Yet the Word of God tells us plainly that these very things would mark the season just before the second coming of the Lord Jesus Christ. What looks like 
+         chaos to us is, in fact, unfolding within His plan. And even in the midst of these upheavals, the Word of God speaks of hope, an unshakable hope that does
+         not depend on what we see around us. This is the hope I bring to you today, and my prayer is that as you open your heart to Christ through His Word, you will have a life-transforming encounter with Him.
+        </p>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="book-modal" id="bookModal">
+    <div class="book-modal-content">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <p id="modalDescription"></p>
+      <div class="ebook-price" id="modalPrice"></div>
+      <ul class="book-features">
+        <li>✔ Instant PDF Download</li>
+        <li>✔ Secure Payment via Paystack</li>
+        <li>✔ Safe Checkout</li>
+      </ul>
+      <button class="buy-btn" id="checkoutBtn">Proceed to Payment</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#top">Home</a> |
+      <a href="#" class="store-trigger">eBooks</a>
+    </div>
+    <p>&copy; 2026 Olateju</p>
+  </footer>
+
+  <script>
+    // ====== CONFIGURE THIS ======
+    // "priceLabel" is what's shown to the user. "paystackLink" is your Paystack payment page link.
+    const EBOOKS = [
+      {
+        id: "book1",
+        title: "The Urgency of Kindness",
+        desc: "A short devotional companion on generosity and grace.",
+        priceLabel: "₦2,000",
+        cover: "lanterns.jpg",
+        paystackLink: "https://paystack.shop/pay/bigmandeji"
+      },
+      {
+        id: "book2",
+        title: "They Called Them Christians",
+        desc: "Reflections on identity and calling.",
+        priceLabel: "₦1,500",
+        cover: "shore.jpg",
+        paystackLink: "https://paystack.shop/pay/your-link-2"
+      },
+      {
+        id: "book3",
+        title: "The Word of God Prevailed",
+        desc: "A study guide.",
+        priceLabel: "₦2,500",
+        cover: "last.jpg",
+        paystackLink: "https://paystack.shop/pay/your-link-3"
+      }
+    ];
+
+    function renderEbooks() {
+      const grid = document.getElementById("ebook-grid");
+
+      grid.innerHTML = EBOOKS.map(book => `
+        <div class="ebook-card">
+          <div class="ebook-cover">
+            <img src="${book.cover}" alt="${book.title}">
+          </div>
+          <div class="ebook-body">
+            <h3>${book.title}</h3>
+            <p class="desc">${book.desc}</p>
+            <div class="ebook-price">${book.priceLabel}</div>
+            <button class="buy-btn" onclick="openBook('${book.id}')">View Details</button>
+            <div class="secure-note">Secure Checkout via Paystack</div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function openBook(id) {
+      const book = EBOOKS.find(b => b.id === id);
+      document.getElementById("modalTitle").textContent = book.title;
+      document.getElementById("modalDescription").textContent = book.desc;
+      document.getElementById("modalPrice").textContent = book.priceLabel;
+      document.getElementById("checkoutBtn").onclick = function () {
+        window.location.href = book.paystackLink;
+      };
+      document.getElementById("bookModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("bookModal").style.display = "none";
+    }
+
+    window.onclick = function (e) {
+      const modal = document.getElementById("bookModal");
+      if (e.target === modal) {
+        closeModal();
+      }
+    };
+
+    renderEbooks();
+
+    // Home / Store nav toggling
+    const homeLink = document.getElementById("homeLink");
+    const storeLinks = document.querySelectorAll(".store-trigger");
+    const storeSection = document.getElementById("store");
+
+    storeLinks.forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        storeSection.classList.add("active");
+        storeSection.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    homeLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      storeSection.classList.remove("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+
+</body>
+</html>
